@@ -1,4 +1,4 @@
-package com.tw.step8.assignment.rectangle;
+package com.tw.step8.assignment1.rectangle;
 
 public class Shape {
 
