@@ -1,4 +1,4 @@
-package com.tw.step8.rectangle;
+package com.tw.step8.assignment.rectangle;
 
 
 public class Main {
