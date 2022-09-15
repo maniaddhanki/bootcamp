@@ -1,7 +1,7 @@
 package com.tw.step8.assignment3;
 
-import com.tw.step8.assignment3.exception.InvalidMeasurementException;
-import com.tw.step8.assignment3.exception.MeasurementMismatchedException;
+import com.tw.step8.assignment3.exception.InvalidValueException;
+import com.tw.step8.assignment3.exception.QuantityMismatchedException;
 import com.tw.step8.assignment3.exception.UnacceptableUnitException;
 
 public class Measurement {
@@ -19,13 +19,13 @@ public class Measurement {
         return this.unit.standardize(this.value);
     }
 
-    private void validateQuantity(Measurement measurement) throws MeasurementMismatchedException {
+    private void validateQuantity(Measurement measurement) throws QuantityMismatchedException {
         if(measurement.quantity != this.quantity){
-            throw new MeasurementMismatchedException(measurement.quantity,this.quantity);
+            throw new QuantityMismatchedException(measurement.quantity,this.quantity);
         }
     }
 
-    public Relation compare(Measurement measurement) throws MeasurementMismatchedException {
+    public Relation compare(Measurement measurement) throws QuantityMismatchedException {
         validateQuantity(measurement);
 
         double standardized = this.standardize();
@@ -37,7 +37,7 @@ public class Measurement {
         return standardized > givenStandardized ? Relation.GREATER : Relation.LESSER;
     }
 
-    public Measurement add(Measurement measurement) throws InvalidMeasurementException, MeasurementMismatchedException, UnacceptableUnitException {
+    public Measurement add(Measurement measurement) throws InvalidValueException, QuantityMismatchedException, UnacceptableUnitException {
         validateQuantity(measurement);
 
         double resultantValue = this.standardize() + measurement.standardize();
@@ -49,17 +49,17 @@ public class Measurement {
         return delta <= threshold && this.quantity == measurement.quantity && this.unit == measurement.unit;
     }
 
-    private static void validateMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidMeasurementException, UnacceptableUnitException {
+    private static void validateMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidValueException, UnacceptableUnitException {
         int leastPossibleValue = 0;
         if (value < leastPossibleValue){
-            throw new InvalidMeasurementException(value);
+            throw new InvalidValueException(value);
         }
         if(!quantity.isAcceptable(unit)){
             throw new UnacceptableUnitException(unit,quantity);
         }
     }
 
-    public static Measurement createMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidMeasurementException, UnacceptableUnitException {
+    public static Measurement createMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidValueException, UnacceptableUnitException {
         validateMeasurement(quantity,value,unit);
         return new Measurement(quantity,value, unit);
     }

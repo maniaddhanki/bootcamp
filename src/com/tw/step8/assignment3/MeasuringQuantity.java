@@ -7,8 +7,8 @@ public enum MeasuringQuantity {
     VOLUME(Unit.LITRE, new Unit[]{Unit.GALLON, Unit.LITRE}),
     TEMPERATURE(Unit.FAHRENHEIT,new Unit[]{Unit.CELSIUS, Unit.FAHRENHEIT});
 
-    private Unit standardUnit;
-    private Unit[] acceptableUnits;
+    private final Unit standardUnit;
+    private final Unit[] acceptableUnits;
 
     MeasuringQuantity(Unit standardUnit, Unit[] acceptableUnits) {
         this.standardUnit = standardUnit;
