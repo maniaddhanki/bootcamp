@@ -138,6 +138,14 @@ class MeasurementTest {
     }
 
     @Test
+    void shouldCompareTemperaturesInFahrenheitAndCelsius() throws InvalidValueException, QuantityMismatchedException, UnacceptableUnitException {
+        Measurement celsius = Measurement.createMeasurement(MeasuringQuantity.TEMPERATURE,215, Unit.CELSIUS);
+        Measurement fahrenheit = Measurement.createMeasurement(MeasuringQuantity.TEMPERATURE,450, Unit.FAHRENHEIT);
+
+        assertEquals(Relation.GREATER,fahrenheit.compare(celsius));
+    }
+
+    @Test
     void shouldThrowAnExceptionForInvalidUnitOfAQuantity() {
         assertThrows(UnacceptableUnitException.class, () -> {
             Measurement.createMeasurement(MeasuringQuantity.VOLUME, 1, Unit.INCH);

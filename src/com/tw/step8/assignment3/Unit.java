@@ -7,7 +7,12 @@ public enum Unit {
     MM(0.04),
     LITRE(1),
     GALLON(3.78),
-    CELSIUS(2.12),
+    CELSIUS(0){
+        @Override
+        public double standardize(double value) {
+            return (value * 1.8) + 32;
+        }
+    },
     FAHRENHEIT(1);
 
     private final double inStandardUnit;
