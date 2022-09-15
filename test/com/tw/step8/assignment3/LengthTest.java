@@ -9,41 +9,48 @@ class LengthTest {
     void shouldCompareLengthsOfSameUnits() {
         Length length1 = new Length(4, Unit.INCH);
         Length length2 = new Length(4, Unit.INCH);
-        assertEquals(0,length1.compare(length2));
+        assertEquals(Relation.EQUAL,length1.compare(length2));
     }
 
     @Test
     void shouldReturn1WhenGivenLengthIsSmallerAndOfSameUnits() {
         Length length1 = new Length(4, Unit.INCH);
         Length length2 = new Length(2, Unit.INCH);
-        assertEquals(1,length1.compare(length2));
+        assertEquals(Relation.GREATER,length1.compare(length2));
     }
 
     @Test
     void shouldGiveNegativeOneWhenGivenLengthIsGreaterAndOfSameUnits() {
         Length length1 = new Length(4, Unit.INCH);
         Length length2 = new Length(8, Unit.INCH);
-        assertEquals(-1,length1.compare(length2));
+        assertEquals(Relation.LESSER,length1.compare(length2));
     }
 
     @Test
     void shouldCompareLengthOfDifferentUnits() {
         Length feet = new Length(1, Unit.FEET);
         Length inch = new Length(12, Unit.INCH);
-        assertEquals(0,feet.compare(inch));
+        assertEquals(Relation.EQUAL,feet.compare(inch));
     }
 
     @Test
     void shouldCompareLengthsInInchAndCentimeter() {
         Length cm = new Length(5, Unit.CM);
         Length inch = new Length(3, Unit.INCH);
-        assertEquals(-1,cm.compare(inch));
+        assertEquals(Relation.LESSER,cm.compare(inch));
     }
 
     @Test
     void shouldCompareLengthsInMillimeterAndCentimeter() {
         Length cm = new Length(1, Unit.CM);
         Length mm = new Length(10, Unit.MM);
-        assertEquals(0,cm.compare(mm));
+        assertEquals(Relation.EQUAL,cm.compare(mm));
+    }
+
+    @Test
+    void shouldCompareLengthsInMillimeterAndInch() {
+        Length mm = new Length(100, Unit.MM);
+        Length inch = new Length(4, Unit.INCH);
+        assertEquals(Relation.EQUAL,inch.compare(mm));
     }
 }

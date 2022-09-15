@@ -13,10 +13,13 @@ public class Length {
         return this.unit.toInch(this.value);
     }
 
-    public int compare(Length length) {
-        double convertedLength = this.toInch();
-        double convertedGivenLength = length.toInch();
+    public Relation compare(Length length) {
+        double lengthInInch = this.toInch();
+        double givenLengthInInch = length.toInch();
 
-        return Double.compare(convertedLength,convertedGivenLength);
+        if (lengthInInch == givenLengthInInch){
+            return Relation.EQUAL;
+         }
+        return lengthInInch > givenLengthInInch ? Relation.GREATER: Relation.LESSER;
     }
 }
