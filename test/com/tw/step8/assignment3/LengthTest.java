@@ -6,28 +6,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LengthTest {
     @Test
-    void shouldCompareLengthsOfSameUnits() {
+    void shouldRelateSameLengthsAsEqual() {
         Length length1 = new Length(4, Unit.INCH);
         Length length2 = new Length(4, Unit.INCH);
         assertEquals(Relation.EQUAL,length1.compare(length2));
     }
 
     @Test
-    void shouldReturn1WhenGivenLengthIsSmallerAndOfSameUnits() {
+    void shouldRelateGreaterIfGivenLengthIsSmaller() {
         Length length1 = new Length(4, Unit.INCH);
         Length length2 = new Length(2, Unit.INCH);
         assertEquals(Relation.GREATER,length1.compare(length2));
     }
 
     @Test
-    void shouldGiveNegativeOneWhenGivenLengthIsGreaterAndOfSameUnits() {
+    void shouldRelateLesserIfGivenLengthIsLarger() {
         Length length1 = new Length(4, Unit.INCH);
         Length length2 = new Length(8, Unit.INCH);
         assertEquals(Relation.LESSER,length1.compare(length2));
     }
 
     @Test
-    void shouldCompareLengthOfDifferentUnits() {
+    void shouldCompareLengthsInFeetAndInch() {
         Length feet = new Length(1, Unit.FEET);
         Length inch = new Length(12, Unit.INCH);
         assertEquals(Relation.EQUAL,feet.compare(inch));
