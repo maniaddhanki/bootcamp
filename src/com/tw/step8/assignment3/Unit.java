@@ -1,15 +1,15 @@
 package com.tw.step8.assignment3;
 
 public enum Unit {
-    FEET(12),INCH(1),CM(0.4),MM(0.04);
+    FEET(12),INCH(1),CM(0.4),MM(0.04),LITRE(1),GALLON(3.78);
 
-    private double inInch;
+    private double inStandardUnit;
 
-    Unit(double inInch) {
-        this.inInch = inInch;
+    Unit(double inStandardUnit) {
+        this.inStandardUnit = inStandardUnit;
     }
 
-    public double toInch(double value) {
-        return this.inInch * value;
+    public double standardize(double value) {
+        return this.inStandardUnit * value;
     }
 }
