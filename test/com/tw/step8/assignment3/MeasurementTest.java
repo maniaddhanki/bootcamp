@@ -85,12 +85,20 @@ class MeasurementTest {
     }
 
     @Test
-    void shouldAddTwoMeasurementsOfDifferentUnitAndGiveResultInInch() throws InvalidMeasurementException, MeasurementMismatchedException {
+    void shouldAddTwoLengthsOfDifferentUnitsAndGiveResultInInch() throws InvalidMeasurementException, MeasurementMismatchedException {
         Measurement length1 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2, Unit.INCH);
         Measurement length2 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2.5, Unit.CM);
         Measurement actualLength = length1.add(length2);
         Measurement expectedLength = Measurement.createMeasurement(MeasuringQuantity.LENGTH,3,Unit.INCH);
         assertTrue(actualLength.isEqual(expectedLength,0.01));
+    }
+    @Test
+    void shouldAddTwoVolumesOfDifferentUnitsAndGiveResultInLitres() throws InvalidMeasurementException, MeasurementMismatchedException {
+        Measurement gallon = Measurement.createMeasurement(MeasuringQuantity.VOLUME, 1, Unit.GALLON);
+        Measurement litre = Measurement.createMeasurement(MeasuringQuantity.VOLUME, 1, Unit.LITRE);
+        Measurement actualVolume = gallon.add(litre);
+        Measurement expectedVolume = Measurement.createMeasurement(MeasuringQuantity.VOLUME,4.78,Unit.LITRE);
+        assertTrue(actualVolume.isEqual(expectedVolume,0.01));
     }
 
     @Test

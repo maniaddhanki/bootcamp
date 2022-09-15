@@ -3,8 +3,6 @@ package com.tw.step8.assignment3;
 import com.tw.step8.assignment3.exception.InvalidMeasurementException;
 import com.tw.step8.assignment3.exception.MeasurementMismatchedException;
 
-import java.util.Objects;
-
 public class Measurement {
     private final double value;
     private final Unit unit;
@@ -20,13 +18,6 @@ public class Measurement {
         return this.unit.standardize(this.value);
     }
 
-    private static Relation getRelation(double value1, double value2) {
-        if (value1 == value2){
-            return Relation.EQUAL;
-        }
-        return value1 > value2 ? Relation.GREATER : Relation.LESSER;
-    }
-
     private void validateMeasurement(Measurement measurement) throws MeasurementMismatchedException {
         if(measurement.quantity != this.quantity){
             throw new MeasurementMismatchedException(measurement.quantity,this.quantity);
@@ -38,14 +29,18 @@ public class Measurement {
 
         double standardized = this.standardize();
         double givenStandardized = measurement.standardize();
-        return getRelation(standardized, givenStandardized);
+
+        if (standardized == givenStandardized){
+            return Relation.EQUAL;
+        }
+        return standardized > givenStandardized ? Relation.GREATER : Relation.LESSER;
     }
 
     public Measurement add(Measurement measurement) throws InvalidMeasurementException, MeasurementMismatchedException {
         validateMeasurement(measurement);
 
         double resultantValue = this.standardize() + measurement.standardize();
-        return createMeasurement(this.quantity,resultantValue,this.unit);
+        return createMeasurement(this.quantity,resultantValue,this.quantity.getStandardUnit());
     }
 
     public boolean isEqual(Measurement measurement, double threshold) {
@@ -54,7 +49,8 @@ public class Measurement {
     }
 
     public static Measurement createMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidMeasurementException {
-        if (value < 0){
+        int leastPossibleValue = 0;
+        if (value < leastPossibleValue){
             throw new InvalidMeasurementException(value);
         }
         return new Measurement(quantity,value, unit);
