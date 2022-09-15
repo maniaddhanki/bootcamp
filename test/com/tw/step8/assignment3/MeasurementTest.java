@@ -74,4 +74,13 @@ class MeasurementTest {
         Measurement length = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 1, Unit.CM);
         assertThrows(MeasurementMismatchedException.class, () -> volume.compare(length));
     }
+
+    @Test
+    void shouldAddTwoMeasurementsOfSameUnit() throws InvalidMeasurementException {
+        Measurement length1 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2, Unit.INCH);
+        Measurement length2 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2, Unit.INCH);
+        Measurement actualLength = length1.add(length2);
+        Measurement expectedLength = Measurement.createMeasurement(MeasuringQuantity.LENGTH,4,Unit.INCH);
+        assertTrue(actualLength.isEqual(expectedLength,0.01));
+    }
 }

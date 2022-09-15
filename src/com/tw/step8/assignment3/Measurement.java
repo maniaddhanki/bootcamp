@@ -3,6 +3,8 @@ package com.tw.step8.assignment3;
 import com.tw.step8.assignment3.exception.InvalidMeasurementException;
 import com.tw.step8.assignment3.exception.MeasurementMismatchedException;
 
+import java.util.Objects;
+
 public class Measurement {
     private final double value;
     private final Unit unit;
@@ -36,5 +38,15 @@ public class Measurement {
             throw new InvalidMeasurementException(value);
         }
         return new Measurement(quantity,value, unit);
+    }
+
+    public Measurement add(Measurement measurement) throws InvalidMeasurementException {
+        double resultantValue = this.value + measurement.value;
+        return createMeasurement(this.quantity,resultantValue,this.unit);
+    }
+
+    public boolean isEqual(Measurement measurement, double threshold) {
+        double delta = Math.abs(this.value - measurement.value);
+        return delta <= threshold && this.quantity == measurement.quantity && this.unit == measurement.unit;
     }
 }
