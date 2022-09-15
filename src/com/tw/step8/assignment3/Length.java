@@ -9,21 +9,14 @@ public class Length {
         this.unit = unit;
     }
 
-    public int compare(Length length) {
-        double convertedLength = this.toInch();
-        double convertedGivenLength = length.toInch();
-
-        return compareLength(convertedLength,convertedGivenLength);
-    }
-
     private double toInch() {
         return this.unit.toInch(this.value);
     }
 
-    private int compareLength(double value, double givenValue) {
-        if(givenValue == value){
-            return 0;
-        }
-        return givenValue > value ? -1 : 1;
+    public int compare(Length length) {
+        double convertedLength = this.toInch();
+        double convertedGivenLength = length.toInch();
+
+        return Double.compare(convertedLength,convertedGivenLength);
     }
 }
