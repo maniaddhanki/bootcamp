@@ -20,6 +20,13 @@ public class Measurement {
         return this.unit.standardize(this.value);
     }
 
+    private static Relation getRelation(double value1, double value2) {
+        if (value1 == value2){
+            return Relation.EQUAL;
+        }
+        return value1 > value2 ? Relation.GREATER : Relation.LESSER;
+    }
+
     public Relation compare(Measurement measurement) throws MeasurementMismatchedException {
         if(measurement.quantity != this.quantity){
             throw new MeasurementMismatchedException(measurement.quantity,this.quantity);
@@ -27,17 +34,7 @@ public class Measurement {
         double standardized = this.standardize();
         double givenStandardized = measurement.standardize();
 
-        if (standardized == givenStandardized){
-            return Relation.EQUAL;
-         }
-        return standardized > givenStandardized ? Relation.GREATER: Relation.LESSER;
-    }
-
-    public static Measurement createMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidMeasurementException {
-        if (value < 0){
-            throw new InvalidMeasurementException(value);
-        }
-        return new Measurement(quantity,value, unit);
+        return getRelation(standardized, givenStandardized);
     }
 
     public Measurement add(Measurement measurement) throws InvalidMeasurementException {
@@ -48,5 +45,12 @@ public class Measurement {
     public boolean isEqual(Measurement measurement, double threshold) {
         double delta = Math.abs(this.value - measurement.value);
         return delta <= threshold && this.quantity == measurement.quantity && this.unit == measurement.unit;
+    }
+
+    public static Measurement createMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidMeasurementException {
+        if (value < 0){
+            throw new InvalidMeasurementException(value);
+        }
+        return new Measurement(quantity,value, unit);
     }
 }
