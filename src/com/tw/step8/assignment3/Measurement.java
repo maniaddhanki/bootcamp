@@ -1,6 +1,7 @@
 package com.tw.step8.assignment3;
 
 import com.tw.step8.assignment3.exception.InvalidMeasurementException;
+import com.tw.step8.assignment3.exception.MeasurementMismatchedException;
 
 public class Measurement {
     private final double value;
@@ -17,14 +18,17 @@ public class Measurement {
         return this.unit.standardize(this.value);
     }
 
-    public Relation compare(Measurement measurement) {
-        double standardizedMeasurement = this.standardize();
-        double givenStandardizedMeasurement = measurement.standardize();
+    public Relation compare(Measurement measurement) throws MeasurementMismatchedException {
+        if(measurement.quantity != this.quantity){
+            throw new MeasurementMismatchedException(measurement.quantity,this.quantity);
+        }
+        double standardized = this.standardize();
+        double givenStandardized = measurement.standardize();
 
-        if (standardizedMeasurement == givenStandardizedMeasurement){
+        if (standardized == givenStandardized){
             return Relation.EQUAL;
          }
-        return standardizedMeasurement > givenStandardizedMeasurement ? Relation.GREATER: Relation.LESSER;
+        return standardized > givenStandardized ? Relation.GREATER: Relation.LESSER;
     }
 
     public static Measurement createMeasurement(MeasuringQuantity quantity, double value, Unit unit) throws InvalidMeasurementException {
