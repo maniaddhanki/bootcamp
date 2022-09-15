@@ -76,11 +76,27 @@ class MeasurementTest {
     }
 
     @Test
-    void shouldAddTwoMeasurementsOfSameUnit() throws InvalidMeasurementException {
+    void shouldAddTwoMeasurementsOfSameUnit() throws InvalidMeasurementException, MeasurementMismatchedException {
         Measurement length1 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2, Unit.INCH);
         Measurement length2 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2, Unit.INCH);
         Measurement actualLength = length1.add(length2);
         Measurement expectedLength = Measurement.createMeasurement(MeasuringQuantity.LENGTH,4,Unit.INCH);
         assertTrue(actualLength.isEqual(expectedLength,0.01));
+    }
+
+    @Test
+    void shouldAddTwoMeasurementsOfDifferentUnitAndGiveResultInInch() throws InvalidMeasurementException, MeasurementMismatchedException {
+        Measurement length1 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2, Unit.INCH);
+        Measurement length2 = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 2.5, Unit.CM);
+        Measurement actualLength = length1.add(length2);
+        Measurement expectedLength = Measurement.createMeasurement(MeasuringQuantity.LENGTH,3,Unit.INCH);
+        assertTrue(actualLength.isEqual(expectedLength,0.01));
+    }
+
+    @Test
+    void shouldThrowAnExceptionForAddingDifferentQuantities() throws InvalidMeasurementException {
+        Measurement volume = Measurement.createMeasurement(MeasuringQuantity.VOLUME, 1, Unit.LITRE);
+        Measurement length = Measurement.createMeasurement(MeasuringQuantity.LENGTH, 1, Unit.CM);
+        assertThrows(MeasurementMismatchedException.class, () -> volume.add(length));
     }
 }

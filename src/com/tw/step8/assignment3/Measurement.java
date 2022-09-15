@@ -27,18 +27,24 @@ public class Measurement {
         return value1 > value2 ? Relation.GREATER : Relation.LESSER;
     }
 
-    public Relation compare(Measurement measurement) throws MeasurementMismatchedException {
+    private void validateMeasurement(Measurement measurement) throws MeasurementMismatchedException {
         if(measurement.quantity != this.quantity){
             throw new MeasurementMismatchedException(measurement.quantity,this.quantity);
         }
+    }
+
+    public Relation compare(Measurement measurement) throws MeasurementMismatchedException {
+        validateMeasurement(measurement);
+
         double standardized = this.standardize();
         double givenStandardized = measurement.standardize();
-
         return getRelation(standardized, givenStandardized);
     }
 
-    public Measurement add(Measurement measurement) throws InvalidMeasurementException {
-        double resultantValue = this.value + measurement.value;
+    public Measurement add(Measurement measurement) throws InvalidMeasurementException, MeasurementMismatchedException {
+        validateMeasurement(measurement);
+
+        double resultantValue = this.standardize() + measurement.standardize();
         return createMeasurement(this.quantity,resultantValue,this.unit);
     }
 
