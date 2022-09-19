@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum MeasuringQuantity {
     LENGTH(Unit.INCH,new Unit[]{Unit.INCH,Unit.CM,Unit.MM,Unit.FEET}),
     VOLUME(Unit.LITRE, new Unit[]{Unit.GALLON, Unit.LITRE}),
-    TEMPERATURE(Unit.FAHRENHEIT,new Unit[]{Unit.CELSIUS, Unit.FAHRENHEIT});
+    TEMPERATURE(Unit.FAHRENHEIT,new Unit[]{Unit.CELS
+            ffIUS, Unit.FAHRENHEIT});
 
     private final Unit standardUnit;
     private final Unit[] acceptableUnits;
