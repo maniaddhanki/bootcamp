@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BagTest {
 	@Test
 	void shouldAddABallToTheBag() {
-		Bag bag = new Bag();
+		Bag bag = new Bag(12);
 		Ball ball = new Ball();
 		bag.add(ball);
 

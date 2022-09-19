@@ -4,8 +4,8 @@ import java.util.HashSet;
 
 public class Bag {
 	HashSet<Ball> balls;
-	public Bag() {
-		this.balls = new HashSet<>();
+	public Bag(int limit) {
+		this.balls = new HashSet<>(limit);
 	}
 
 	public void add(Ball ball) {
