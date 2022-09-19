@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BagTest {
 	@Test
-	void shouldAddABallToTheBag() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldAddABallToTheBag() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(12, 1);
 		Ball ball = new Ball(BallColor.GREEN);
 		bag.add(ball);
@@ -15,7 +15,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldThrowExceptionWhenABallIsBeingAddedBeyondBagCapacity() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldThrowExceptionWhenABallIsBeingAddedBeyondBagCapacity() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(1, 1);
 		bag.add(new Ball(BallColor.GREEN));
 
@@ -23,7 +23,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldThrowExceptionWhenGreenBallsAreAddedMoreThanLimit() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldThrowExceptionWhenGreenBallsAreAddedMoreThanLimit() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(2, 1);
 		bag.add(new Ball(BallColor.GREEN));
 
@@ -38,7 +38,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldAddARedWhenAtleastAGreenBallIsPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldAddARedWhenAtleastAGreenBallIsPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(2, 1);
 		Ball redBall = new Ball(BallColor.RED);
 
@@ -49,7 +49,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldAddAYellowBall() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldAddAYellowBall() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(3, 2);
 		Ball yellowBall = new Ball(BallColor.YELLOW);
 
@@ -68,7 +68,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldThrowExceptionWhenAYellowBallOccupancyIsAboutToCrossFortyPercent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldThrowExceptionWhenAYellowBallOccupancyIsAboutToCrossFortyPercent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(2, 1);
 		bag.add(new Ball(BallColor.GREEN));
 
@@ -76,7 +76,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldAddABlueBallIfBlackBallIsNotPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldAddABlueBallIfBlackBallIsNotPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(2, 2);
 		Ball blueBall = new Ball(BallColor.BLUE);
 
@@ -85,7 +85,7 @@ class BagTest {
 	}
 
 	@Test
-	void shouldAddABlackBallIfBlueBallIsNotPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+	void shouldAddABlackBallIfBlueBallIsNotPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 		Bag bag = Bag.createBag(2, 2);
 		Ball blackBall = new Ball(BallColor.BLACK);
 
@@ -96,22 +96,22 @@ class BagTest {
 	@Test
 	void shouldThrowExceptionWhenTryingToAddABlueBallWhileBlackIsPresent() throws
 		ExceedingBagCapacityException,
-		ExceedingColoredBallCapacityException {
+		ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 
 		Bag bag = Bag.createBag(2, 2);
 		bag.add(new Ball(BallColor.BLACK));
 
-		assertThrows(ExceedingColoredBallCapacityException.class, () -> bag.add(new Ball(BallColor.BLUE)));
+		assertThrows(CanOnlyAddBlueOrBlackBallException.class, () -> bag.add(new Ball(BallColor.BLUE)));
 	}
 
 	@Test
 	void shouldThrowExceptionWhenTryingToAddABlackBallWhileBlueIsPresent() throws
 		ExceedingBagCapacityException,
-		ExceedingColoredBallCapacityException {
+		ExceedingColoredBallCapacityException, CanOnlyAddBlueOrBlackBallException {
 
 		Bag bag = Bag.createBag(2, 2);
 		bag.add(new Ball(BallColor.BLUE));
 
-		assertThrows(ExceedingColoredBallCapacityException.class, () -> bag.add(new Ball(BallColor.BLACK)));
+		assertThrows(CanOnlyAddBlueOrBlackBallException.class, () -> bag.add(new Ball(BallColor.BLACK)));
 	}
 }
