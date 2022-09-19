@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BagTest {
 	@Test
 	void shouldAddABallToTheBag() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
-		Bag bag = new Bag(12, 1);
+		Bag bag = Bag.createBag(12, 1);
 		Ball ball = new Ball(BallColor.GREEN);
 		bag.add(ball);
 
@@ -16,7 +16,7 @@ class BagTest {
 
 	@Test
 	void shouldThrowExceptionWhenABallIsBeingAddedBeyondBagCapacity() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
-		Bag bag = new Bag(1, 1);
+		Bag bag = Bag.createBag(1, 1);
 		bag.add(new Ball(BallColor.GREEN));
 
 		assertThrows(ExceedingBagCapacityException.class,()-> bag.add(new Ball(BallColor.GREEN)));
@@ -24,9 +24,16 @@ class BagTest {
 
 	@Test
 	void shouldThrowExceptionWhenGreenBallsAreAddedMoreThanLimit() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
-		Bag bag = new Bag(2, 1);
+		Bag bag = Bag.createBag(2, 1);
 		bag.add(new Ball(BallColor.GREEN));
 
 		assertThrows(ExceedingColoredBallCapacityException.class,()->bag.add(new Ball(BallColor.GREEN)));
+	}
+
+	@Test
+	void shouldThrowExceptionWhenRedBallIsAddedWhenNoGreenStored() {
+		Bag bag = Bag.createBag(2, 1);
+
+		assertThrows(ExceedingColoredBallCapacityException.class,() -> bag.add(new Ball(BallColor.RED)));
 	}
 }
