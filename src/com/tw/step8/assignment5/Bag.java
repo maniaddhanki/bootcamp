@@ -8,12 +8,16 @@ public class Bag {
 	HashMap<BallColor, Integer> coloredBallCount;
 	HashMap<BallColor, Integer> coloredBallLimit;
 	private final int bagCapacity;
+	private boolean isBluePresent;
+	private boolean isBlackPresent;
 
 	private Bag(int bagCapacity, HashMap<BallColor, Integer> coloredBallCount, HashMap<BallColor, Integer> coloredBallLimit) {
 		this.balls = new HashSet<>(bagCapacity);
 		this.bagCapacity = bagCapacity;
 		this.coloredBallCount = coloredBallCount;
 		this.coloredBallLimit = coloredBallLimit;
+		this.isBluePresent = false;
+		this.isBlackPresent = false;
 	}
 
 	public static Bag createBag(int limit, int greenBallLimit) {
@@ -23,6 +27,8 @@ public class Bag {
 		coloredBallLimit.put(BallColor.GREEN, greenBallLimit);
 		coloredBallLimit.put(BallColor.RED, 0);
 		coloredBallLimit.put(BallColor.YELLOW, 0);
+		coloredBallLimit.put(BallColor.BLUE, limit);
+		coloredBallLimit.put(BallColor.BLACK, limit);
 
 		return new Bag(limit, coloredBallCount, coloredBallLimit);
 	}
@@ -38,6 +44,9 @@ public class Bag {
 	}
 
 	private void updateCountAndLimit(Ball ball) {
+		if (ball.color == BallColor.BLUE) this.isBluePresent = true;
+		if (ball.color == BallColor.BLACK) this.isBlackPresent = true;
+
 		Integer currentCount = this.coloredBallCount.getOrDefault(ball.color,0) + 1;
 		this.coloredBallCount.put(ball.color,currentCount);
 
@@ -53,7 +62,15 @@ public class Bag {
 		Integer ballLimit = this.coloredBallLimit.get(ball.color);
 		Integer ballCount = this.coloredBallCount.getOrDefault(ball.color,0);
 
-		if(ballLimit <= ballCount ){
+		if (ball.color == BallColor.BLUE && isBlackPresent){
+			throw new ExceedingColoredBallCapacityException(ball);
+		}
+
+		if (ball.color == BallColor.BLACK && isBluePresent){
+			throw new ExceedingColoredBallCapacityException(ball);
+		}
+
+		if(ballLimit <= ballCount ) {
 			throw new ExceedingColoredBallCapacityException(ball);
 		}
 	}
