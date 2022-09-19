@@ -36,4 +36,42 @@ class BagTest {
 
 		assertThrows(ExceedingColoredBallCapacityException.class,() -> bag.add(new Ball(BallColor.RED)));
 	}
+
+	@Test
+	void shouldAddARedWhenAtleastAGreenBallIsPresent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+		Bag bag = Bag.createBag(2, 1);
+		Ball redBall = new Ball(BallColor.RED);
+
+		bag.add(new Ball(BallColor.GREEN));
+		bag.add(redBall);
+
+		assertTrue(bag.contains(redBall));
+	}
+
+	@Test
+	void shouldAddAYellowBall() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+		Bag bag = Bag.createBag(3, 2);
+		Ball yellowBall = new Ball(BallColor.YELLOW);
+
+		bag.add(new Ball(BallColor.GREEN));
+		bag.add(new Ball(BallColor.GREEN));
+		bag.add(yellowBall);
+
+		assertTrue(bag.contains(yellowBall));
+	}
+
+	@Test
+	void shouldThrowExceptionWhenAYellowBallIsAddedFirst() {
+		Bag bag = Bag.createBag(2, 1);
+
+		assertThrows(ExceedingColoredBallCapacityException.class, () -> bag.add(new Ball(BallColor.YELLOW)));
+	}
+
+	@Test
+	void shouldThrowExceptionWhenAYellowBallOccupancyIsAboutToCrossFortyPercent() throws ExceedingBagCapacityException, ExceedingColoredBallCapacityException {
+		Bag bag = Bag.createBag(2, 1);
+		bag.add(new Ball(BallColor.GREEN));
+
+		assertThrows(ExceedingColoredBallCapacityException.class, () -> bag.add(new Ball(BallColor.YELLOW)));
+	}
 }

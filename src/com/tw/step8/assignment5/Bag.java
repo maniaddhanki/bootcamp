@@ -22,6 +22,7 @@ public class Bag {
 
 		coloredBallLimit.put(BallColor.GREEN, greenBallLimit);
 		coloredBallLimit.put(BallColor.RED, 0);
+		coloredBallLimit.put(BallColor.YELLOW, 0);
 
 		return new Bag(limit, coloredBallCount, coloredBallLimit);
 	}
@@ -33,8 +34,19 @@ public class Bag {
 
 		validateAddition(ball);
 		this.balls.add(ball);
-		Integer currentCount = this.coloredBallCount.getOrDefault(ball.color,0);
-		this.coloredBallCount.put(ball.color,currentCount+1);
+		updateCountAndLimit(ball);
+	}
+
+	private void updateCountAndLimit(Ball ball) {
+		Integer currentCount = this.coloredBallCount.getOrDefault(ball.color,0) + 1;
+		this.coloredBallCount.put(ball.color,currentCount);
+
+		Integer currentGreenBalls = this.coloredBallCount.getOrDefault(BallColor.GREEN, 0);
+		this.coloredBallLimit.replace(BallColor.RED, currentGreenBalls * 2);
+
+		int currentOccupancy = this.balls.size() + 1;
+		int yellowBallLimit = (40 * currentOccupancy) / 100;
+		this.coloredBallLimit.replace(BallColor.YELLOW, yellowBallLimit);
 	}
 
 	private void validateAddition(Ball ball) throws ExceedingColoredBallCapacityException {
